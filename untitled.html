@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Founder Archives</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Syncopate:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .ambient-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(32, 216, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 191, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+      z-index: -1;
+      pointer-events: none;
+      animation: ambientShift 30s infinite alternate ease-in-out;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    @keyframes ambientShift {
+      0% { transform: scale(1); filter: hue-rotate(0deg); }
+      50% { transform: scale(1.1); filter: hue-rotate(90deg); }
+      100% { transform: scale(1); filter: hue-rotate(0deg); }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 20px rgba(255, 255, 255, 0.02);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: cardFadeIn 1s ease-out forwards;
+    }
+
+    @keyframes cardFadeIn {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+      );
+      transition: 0.8s;
+    }
+
+    .glass-card:hover::before {
+      left: 100%;
+    }
+
+    h1 {
+      font-family: 'Syncopate', sans-serif;
+      font-size: 3rem;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 2rem;
+      letter-spacing: 6px;
+      text-align: center;
+      text-transform: uppercase;
+      animation: titleGlow 2s infinite alternate;
+    }
+
+    @keyframes titleGlow {
+      from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+      to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(32, 216, 255, 0.5); }
+    }
+
+    #content {
+      opacity: 0;
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.5px;
+      transform: translateY(20px);
+    }
+
+    #content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .Media {
+      max-width: 100%;
+      height: auto;
+      margin: 2rem 0;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: scale(0.95);
+      animation: imageFadeIn 1.2s ease-out forwards;
+    }
+
+    @keyframes imageFadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .Media:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 48px rgba(32, 216, 255, 0.2);
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding: 0 1rem;
+      opacity: 0;
+      animation: navFadeIn 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes navFadeIn {
+      to { opacity: 1; }
+    }
+
+    .nav-button {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.8);
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 50px;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(5px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      transition: 0.6s;
+      opacity: 0;
+    }
+
+    .nav-button:hover {
+      background: rgba(32, 216, 255, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(32, 216, 255, 0.2);
+    }
+
+    .nav-button:hover::after {
+      opacity: 1;
+      transform: rotate(45deg) translate(50%, 50%);
+    }
+
+    .nav-button:active {
+      transform: translateY(0);
+    }
+
+    a {
+      color: #20D8FF;
+      text-decoration: none;
+      transition: all 0.6s ease;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #20D8FF;
+      transition: width 0.6s ease;
+    }
+
+    a:hover {
+      color: #FF00BF;
+    }
+
+    a:hover::after {
+      width: 100%;
+      background: #FF00BF;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        letter-spacing: 4px;
+      }
+
+      .glass-card {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-background"></div>
+  <div class="grid-overlay"></div>
+  <div class="container">
+    <div class="glass-card">
+      <h1>Founders Archives</h1>
+      <div id="content">
+        <p>Begin your journey...</p>
+      </div>
+      <div class="navigation">
+        <button class="nav-button" onclick="fetchRandomEntry()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="nav-button" onclick="fetchRandomEntry()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function fetchRandomEntry() {
+      const apiKey = 'patd83hjO9GjcMnzU.ba23aeace598bb1bbac744991980273f8d90246404f114cd268b036676c75ca8';
+      const baseId = 'appSsfbMsM2kyKfhF';
+      const tableName = 'FoundersPodcast';
+      const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+      
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`
+          }
+        });
+        const data = await response.json();
+        
+        if (data.records && data.records.length > 0) {
+          const randomIndex = Math.floor(Math.random() * data.records.length);
+          const record = data.records[randomIndex].fields;
+          await displayRecord(record);
+        } else {
+          document.getElementById('content').innerHTML = '<p>No records found.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('content').innerHTML = '<p>Error fetching data. Please try again.</p>';
+      }
+    }
+
+    async function displayRecord(record) {
+      const contentDiv = document.getElementById('content');
+      contentDiv.classList.remove('visible');
+      
+      await new Promise(resolve => setTimeout(resolve, 600));
+      
+      let html = '';
+      
+      if (record["Content (Text)"]) {
+        const formattedText = record["Content (Text)"]
+          .replace(/\n/g, '<br>')
+          .split('<br>')
+          .map(para => para.trim())
+          .filter(para => para)
+          .map(para => `<p style="margin-bottom: 1.5rem; transition: opacity 0.8s ease;">${para}</p>`)
+          .join('');
+        
+        html += `<div style="font-weight: 300;">${formattedText}</div>`;
+      } else {
+        html += '<p>No content available.</p>';
+      }
+      
+      if (record.Media && record.Media.length > 0) {
+        html += `<img src="${record.Media[0].url}" alt="Media" class="Media">`;
+      }
+      
+      if (record.URL) {
+        html += `
+          <p style="margin-top: 1.5rem;">
+            <a href="${record.URL}" target="_blank" class="link">
+              X
+            </a>
+          </p>`;
+      }
+      
+      contentDiv.innerHTML = html;
+      
+      await new Promise(resolve => setTimeout(resolve, 100));
+      contentDiv.classList.add('visible');
+    }
+  </script>
+</body>
+</html>
