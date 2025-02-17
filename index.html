@@ -298,32 +298,41 @@
     </div>
   </div>
   <script>
-    async function fetchRandomEntry() {
-      const apiKey = 'patd83hjO9GjcMnzU.ba23aeace598bb1bbac744991980273f8d90246404f114cd268b036676c75ca8';
-      const baseId = 'appSsfbMsM2kyKfhF';
-      const tableName = 'FoundersPodcast';
-      const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
-      
-      try {
-        const response = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${apiKey}`
-          }
-        });
-        const data = await response.json();
-        
-        if (data.records && data.records.length > 0) {
-          const randomIndex = Math.floor(Math.random() * data.records.length);
-          const record = data.records[randomIndex].fields;
-          await displayRecord(record);
-        } else {
-          document.getElementById('content').innerHTML = '<p>No records found.</p>';
+  async function fetchRandomEntry() {
+    const apiKey = 'patd83hjO9GjcMnzU.ba23aeace598bb1bbac744991980273f8d90246404f114cd268b036676c75ca8';
+    const baseId = 'appSsfbMsM2kyKfhF';
+    const tableName = 'FoundersPodcast';
+    const pageSize = 100;  // Airtable default page size
+    const totalRecords = 1000;  // Estimated total records in the table
+    const totalPages = Math.ceil(totalRecords / pageSize); // Number of pages
+  
+    // Select a random page number
+    const randomPage = Math.floor(Math.random() * totalPages);
+    const randomOffset = randomPage * pageSize;  // Approximate page start
+  
+    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?pageSize=${pageSize}&offset=${randomOffset}`;
+  
+    try {
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${apiKey}`
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('content').innerHTML = '<p>Error fetching data. Please try again.</p>';
+      });
+  
+      const data = await response.json();
+  
+      if (data.records && data.records.length > 0) {
+        const randomIndex = Math.floor(Math.random() * data.records.length);
+        const record = data.records[randomIndex].fields;
+        await displayRecord(record);
+      } else {
+        document.getElementById('content').innerHTML = '<p>No records found.</p>';
       }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      document.getElementById('content').innerHTML = '<p>Error fetching data. Please try again.</p>';
     }
+  }
 
     async function displayRecord(record) {
       const contentDiv = document.getElementById('content');
